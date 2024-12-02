@@ -4,4 +4,4 @@
 ./index.js redact yahAPPROACH.png output.png
 ```
 
-![](output.png)
+![](better.png)

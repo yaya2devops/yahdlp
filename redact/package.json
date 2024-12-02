@@ -1,17 +1,34 @@
 {
-  "name": "here",
-  "version": "1.0.0",
+  "name": "yahdlp",
+  "version": "1.3.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "bin": {
+    "yahdlp": "index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "description": "Enterprise-grade PII detection and redaction tool by Yahya Enterprises",
+  "author": {
+    "name": "Yahya Enterprises",
+    "email": "dev@yahya-abulhaj.dev",
+    "url": "https://merit.ya-ya.tech"
+  },
+  "license": "MIT",
+  "keywords": [
+    "pii",
+    "privacy",
+    "redaction",
+    "dlp",
+    "security",
+    "enterprise",
+    "yahya-enterprises"
+  ],
   "dependencies": {
     "sharp": "^0.33.5",
     "tesseract.js": "^5.1.1",
+    "yahdlp": "^1.3.0",
     "yargs": "^17.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yaya2devops/yahdlp"
   }
 }

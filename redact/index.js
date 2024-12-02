@@ -7,8 +7,18 @@ const path = require('path');
 
 process.removeAllListeners('warning');
 
-// Store values in temp file
 const TEMP_FILE = path.join(process.cwd(), '.yahdlp-temp.json');
+
+const COLORS = {
+  found: { r: 100, g: 100, b: 200, alpha: 1 },      // Light purple, opaque for found
+  notFound: { r: 64, g: 64, b: 153, alpha: 0.7 },   // Darker purple, semi-transparent
+  textBg: { r: 0, g: 0, b: 0, alpha: 0.7 }          // Text background
+};
+
+const patterns = {
+  EMAIL: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/,
+  PHONE: /(?:\+\d{1,3}[-. ]?)?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}\b/
+};
 
 function saveInspectedValues(values) {
   fs.writeFileSync(TEMP_FILE, JSON.stringify(values));
@@ -21,11 +31,6 @@ function getInspectedValues() {
     return { EMAIL: null, PHONE: null };
   }
 }
-
-const patterns = {
-  EMAIL: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/,
-  PHONE: /(?:\+\d{1,3}[-. ]?)?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}\b/
-};
 
 async function inspectText(text, types = ['EMAIL', 'PHONE']) {
   const findings = [];
@@ -68,6 +73,7 @@ async function redactImage(inputPath, outputPath, types) {
 
     const image = sharp(inputPath);
     const metadata = await image.metadata();
+    const colors = hasMatch ? COLORS.found : COLORS.notFound;
 
     await image
       .composite([{
@@ -76,7 +82,7 @@ async function redactImage(inputPath, outputPath, types) {
             width: metadata.width,
             height: metadata.height,
             channels: 4,
-            background: { r: 64, g: 64, b: 153, alpha: hasMatch ? 1 : 0.3 }
+            background: colors
           }
         },
         top: 0,
@@ -84,12 +90,34 @@ async function redactImage(inputPath, outputPath, types) {
       }, {
         input: Buffer.from(`
           <svg width="${metadata.width}" height="${metadata.height}">
-            <style>.title { font-family: Arial; fill: white; font-size: 32px; }</style>
-            <text x="50%" y="50%" class="title" text-anchor="middle">
-              ${hasMatch ? 
-                'Hi, this asset has been processed and redacted due to the inclusion of PII in it' :
-                'Inspected PII not found in this asset'}
-            </text>
+            <style>
+              .message-container {
+                font-family: Arial;
+                font-weight: bold;
+              }
+              .title { 
+                fill: white; 
+                font-size: 38px;
+              }
+              .subtitle { 
+                fill: white; 
+                font-size: 28px;
+              }
+            </style>
+            <g class="message-container">
+              ${hasMatch ? `
+                <text x="50%" y="45%" class="title" text-anchor="middle">
+                  The asset has been thoroughly processed and redacted.
+                </text>
+                <text x="50%" y="55%" class="subtitle" text-anchor="middle">
+                  As an inclusion of PIIs are detected by yahSystems.
+                </text>
+              ` : `
+                <text x="50%" y="50%" class="title" text-anchor="middle">
+                  Inspected PII not found in this asset
+                </text>
+              `}
+            </g>
           </svg>
         `),
         top: 0,
@@ -98,8 +126,8 @@ async function redactImage(inputPath, outputPath, types) {
       .toFile(outputPath);
 
     if (fs.existsSync('eng.traineddata')) fs.unlinkSync('eng.traineddata');
-    await worker.terminate();
     console.log(hasMatch ? 'Found and redacted PII' : 'No matching PII found');
+    await worker.terminate();
   } catch (error) {
     console.error('Error:', error);
   }
