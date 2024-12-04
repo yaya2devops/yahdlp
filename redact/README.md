@@ -1,6 +1,6 @@
-# yahdlp
+# yahDLP 
 
-Enterprise-grade PII detection and redaction tool. Automatically detect and redact sensitive information.
+Enterprise-grade PII detection and redaction tool [dlp.yah.qa](https://dlp.yah.qa/) automatically detect and redact sensitive information.
 
 ![Version](https://img.shields.io/npm/v/yahdlp)
 ![License](https://img.shields.io/npm/l/yahdlp)
@@ -26,29 +26,36 @@ npm install -g yahdlp
 
 ```bash
 # Inspect for email
-yahdlp inspect -t "dev@example.com" -e
+yahdlp inspect -t "dev@Yayha.com" -e
 
 # Inspect for phone number
 yahdlp inspect -t "+1234567890" -p
 
 # Inspect for both email and phone
-yahdlp inspect -t "Email: dev@example.com Phone: +1234567890"
+yahdlp inspect -t "Email: dev@Yayha.com Phone: +1234567890"
 ```
 
-### Image Redaction Demo
+## Image Redaction `No` Demo
+
+Introducing the asset in question:
+
+![The cloud beast himself!](https://raw.githubusercontent.com/yaya2devops/yahdlp/refs/heads/main/redact/yahAPPROACH.png)
 
 Always inspect first, then redact:
 
 ```bash
 # Demo No redaction workflow
-yahdlp inspect -t "dev@example.com" -e
+yahdlp inspect -t "dev@Yayha.com" -e
 yahdlp redact yahAPPROACH.png output.png -e
 
 No matching PII found
 ```
 
-![Not Found](test-not-found/better.png)
+### Result:
 
+![Not Found](https://raw.githubusercontent.com/yaya2devops/yahdlp/refs/heads/main/redact/test-not-found/better.png)
+
+## Image Redaction `Yes` Demo
 
 ```bash
 # Demo Yes redaction workflow
@@ -58,17 +65,19 @@ yahdlp redact yahAPPROACH.png output.png -e
 Found and redacted PII
 ```
 
-![It is found](test-found/better.png)
+### Result:
+
+![It is found](https://raw.githubusercontent.com/yaya2devops/yahdlp/refs/heads/main/redact/output.png)
 
 
-### Phone Numbers Considerations
+#### Phone Numbers Considerations
 ```bash
 # Phone redaction workflow
 yahdlp inspect -t "+1234567890" -p
 yahdlp redact input.png output.png -p
 
 # Complete redaction workflow
-yahdlp inspect -t "Email: dev@example.com Phone: +1234567890"
+yahdlp inspect -t "Email: dev@Yayha.com Phone: +1234567890"
 yahdlp redact input.png output.png
 ```
 
@@ -95,15 +104,10 @@ yahdlp redact input.png output.png
 - Non-matching PII remains visible but marked as inspected
 - No sensitive data stored between sessions
 
-## Contributing
-
-Contributions welcome! Please read our contributing guidelines first.
-
 ## License
 
-MIT © 
+MIT © Yahya Entreprises built with ❤️ - Crafting privacy-first solutions for a secure digital world.
 
-## Author
 
-Built with ❤️ - Crafting privacy-first solutions for a secure digital world.
+> [🍍 Fruits](https://dlp.yahya-abulhaj.dev/)
 

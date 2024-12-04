@@ -1,6 +1,6 @@
-# [yahDLP](https://www.npmjs.com/package/yahdlp)
+# [yahDLP](https://dlp.yah.qa)
 
-An innovative tool, you give it;
+An innovative [dlp.yah.qa](https://dlp.yah.qa) tool, you give it;
 - an email, 
 - a phone, 
 - or even both.
@@ -18,7 +18,7 @@ You target an asset of yours, you give it;
 
 If it is detected, 
 - The asset is completely redacted.
-- DLP with a nice color. 
+- With a nice DLP color. 
 
 Else, we will tell you.
 

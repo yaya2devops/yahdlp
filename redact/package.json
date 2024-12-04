@@ -1,6 +1,6 @@
 {
   "name": "yahdlp",
-  "version": "1.3.0",
+  "version": "1.3.6",
   "main": "index.js",
   "bin": {
     "yahdlp": "index.js"
@@ -24,11 +24,11 @@
   "dependencies": {
     "sharp": "^0.33.5",
     "tesseract.js": "^5.1.1",
-    "yahdlp": "^1.3.0",
+    "yahdlp": "^1.3.6",
     "yargs": "^17.7.2"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yaya2devops/yahdlp"
+    "url": "git+https://github.com/yaya2devops/yahdlp.git"
   }
 }
